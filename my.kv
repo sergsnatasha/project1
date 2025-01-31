@@ -1,0 +1,644 @@
+# -*- coding: utf-8 -*-
+<MyWidget>
+<BaseMDNavigationItem>
+    MDNavigationItemIcon:
+        icon: root.icon
+
+    MDNavigationItemLabel:
+        text: root.text
+
+<Container>:
+    id: sm_main
+
+    my_widget: my_widget
+    input_date_year_natal: input_date_year_natal
+    input_date_mount_natal: input_date_mount_natal
+    input_date_day_natal: input_date_day_natal
+    input_time_hour_natal: input_time_hour_natal
+    input_time_minute_natal: input_time_minute_natal
+    input_time_sec_natal: input_time_sec_natal
+    input_city_natal: input_city_natal
+    input_country_natal: input_country_natal
+    input_latitude_grad_natal: input_latitude_grad_natal
+    input_latitude_min_natal: input_latitude_min_natal
+    input_latitude_sec_natal: input_latitude_sec_natal
+    input_longitude_grad_natal: input_longitude_grad_natal
+    input_longitude_sec_natal: input_longitude_sec_natal
+    input_longitude_min_natal: input_longitude_min_natal
+    label_date_natal: label_date_natal
+    button_natal_minus_min_text: button_natal_minus_min_text
+    button_natal_minus_hour_text: button_natal_minus_hour_text
+    button_natal_plus_min_text: button_natal_plus_min_text
+    button_natal_plus_hour_text: button_natal_plus_hour_text
+
+    Screen:
+        name:"screen_menu"
+        id: screen_menu
+        MDFloatLayout:
+            radius: [50, 50, 50, 50]
+            md_bg_color: 1, 1, 1, 1
+            orientation: 'vertical'
+            MDLabel:
+                text: "ASTRO"
+                bold: True
+                font_style: "Display"
+                role: "small"
+                pos_hint:{'center_x':.8, "center_y": .9}
+
+            MDButton:
+                style: "elevated"
+                radius: [5, 20, 5, 20]
+                theme_shadow_color: "Custom"
+                shadow_color: "red"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release:
+                    root.starting_app()
+                    sm_main.current='screen_app'
+                MDButtonText:
+                    text: "ENTER"
+                    theme_text_color: "Custom"
+                    text_color: "red"
+
+            MDButton:
+                style: "elevated"
+                radius: [5, 20, 5, 20]
+                theme_shadow_color: "Custom"
+                shadow_color: "red"
+                pos_hint: {"center_x": .5, "center_y": .3}
+                on_release:
+                    sm_main.current='screen_app'
+                MDButtonText:
+                    text: "EXIT"
+                    theme_text_color: "Custom"
+                    text_color: "red"
+
+    Screen:
+        name:"screen_app"
+        id: app_screens
+        MDBoxLayout:
+            orientation: 'vertical'
+            ScreenManager:
+                id: screen_manager
+
+                Screen:
+                    name:"Natal"
+                    MDRelativeLayout:
+                        orientation: 'vertical'
+                        md_bg_color: 1, 1, 1, 1
+
+                        ResizableDraggable:
+                            do_rotation : False
+                            do_scale : False
+                            #do_translation : False
+                            MyWidget:
+                                name: 'my_widget'
+                                id: my_widget
+                                canvas.before:
+                                    PushMatrix
+                                    Scale:
+                                        x: self.scale_value_x/1.5
+                                        y: self.scale_value_y/1.5
+                                        z: self.scale_value_x
+                                        origin: self.center
+                                canvas.after:
+                                    PopMatrix
+
+                        MDLabel:
+                            name: "label_date_natal"
+                            id: label_date_natal
+                            text: "4444"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            pos: "0dp", "620dp"
+
+                        MDBoxLayout:
+                            adaptive_size: True
+                            size_hint: 1, .02
+                            pos: "0dp", "200dp"
+                            MDButton:
+                                style: "elevated"
+                                theme_shadow_color: "Custom"
+                                shadow_color: "red"
+                                pos_hint: {"center_x": .5, "center_y": .2}
+                                on_release:
+                                    root.check_data(-(root.get_time()[0]), 0, True)
+
+                                MDButtonIcon:
+                                    icon: "minus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: "green"
+
+                                MDButtonText:
+                                    name: 'button_natal_minus_hour_text'
+                                    id: button_natal_minus_hour_text
+                                    text: "1ч"
+                                    theme_text_color: "Custom"
+                                    text_color: "red"
+
+                            MDButton:
+                                style: "elevated"
+                                theme_shadow_color: "Custom"
+                                shadow_color: "red"
+                                pos_hint: {"center_x": .5, "center_y": .2}
+                                on_release:
+                                    root.check_data(0, -(root.get_time()[1]), True)
+
+                                MDButtonIcon:
+                                    icon: "minus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: "green"
+
+                                MDButtonText:
+                                    name: 'button_natal_minus_min_text'
+                                    id: button_natal_minus_min_text
+                                    text: "1м"
+                                    theme_text_color: "Custom"
+                                    text_color: "red"
+
+                            MDButton:
+                                style: "elevated"
+                                theme_shadow_color: "Custom"
+                                shadow_color: "red"
+                                pos_hint: {"center_x": .5, "center_y": .2}
+                                on_release:
+                                    root.check_data(0, root.get_time()[1], True)
+
+                                MDButtonIcon:
+                                    icon: "plus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: "green"
+
+                                MDButtonText:
+                                    name: 'button_natal_plus_min_text'
+                                    id: button_natal_plus_min_text
+                                    text: "1м"
+                                    theme_text_color: "Custom"
+                                    text_color: "red"
+
+                            MDButton:
+                                style: "elevated"
+                                theme_shadow_color: "Custom"
+                                shadow_color: "red"
+                                pos_hint: {"center_x": .5, "center_y": .2}
+                                on_release:
+                                    root.check_data(root.get_time()[0], 0, True)
+                                MDButtonIcon:
+                                    icon: "plus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: "green"
+
+                                MDButtonText:
+                                    name: 'button_natal_plus_hour_text'
+                                    id: button_natal_plus_hour_text
+                                    text: "1ч"
+                                    theme_text_color: "Custom"
+                                    text_color: "red"
+
+                        MDBoxLayout:
+                            MDButton:
+                                style: "elevated"
+                                theme_shadow_color: "Custom"
+                                shadow_color: "red"
+                                pos_hint: {"center_x": 1, "center_y": .2}
+                                on_release:
+                                    sm_main.current='screen_menu'
+
+                                MDButtonIcon:
+                                    icon: "plus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: "green"
+
+                                MDButtonText:
+                                    text: "Elevated"
+                                    theme_text_color: "Custom"
+                                    text_color: "red"
+
+                            MDButton:
+                                style: "elevated"
+                                theme_shadow_color: "Custom"
+                                shadow_color: "red"
+                                pos_hint: {"center_x": .1, "center_y": .2}
+                                on_release:
+                                    sm_main.current='screen_time_natal'
+
+                                MDButtonIcon:
+                                    icon: "plus"
+                                    theme_icon_color: "Custom"
+                                    icon_color: "green"
+
+                                MDButtonText:
+                                    text: "Elevated"
+                                    theme_text_color: "Custom"
+                                    text_color: "red"
+
+                            MDDropDownItem:
+                                id: drop_item
+                                pos_hint: {"center_x": .1, "center_y": .2}
+                                on_release: root.open_drop_item_menu(self)
+
+                                MDDropDownItemText:
+                                    id: drop_text
+                                    text: "1"
+
+                Screen:
+                    name:"Transit"
+                    MDBoxLayout:
+                        MDButton:
+                            style: "elevated"
+                            theme_shadow_color: "Custom"
+                            shadow_color: "red"
+                            pos_hint: {"center_x": .1, "center_y": .2}
+                            on_release:
+                                sm_main.current='screen_time_natal'
+
+                            MDButtonIcon:
+                                icon: "plus"
+                                theme_icon_color: "Custom"
+                                icon_color: "green"
+
+                            MDButtonText:
+                                text: "Elevated"
+                                theme_text_color: "Custom"
+                                text_color: "red"
+                Screen:
+                    name:"Solar"
+                    id: Solar
+                    MDRelativeLayout:
+                        orientation: 'vertical'
+                        md_bg_color: 1, 1, 1, 1
+
+
+        MDNavigationBar:
+            on_switch_tabs: app.on_switch_tabs(*args)
+            BaseMDNavigationItem
+                icon: "compass-rose"
+                text: "Natal"
+                active: True
+
+            BaseMDNavigationItem
+                icon: "creation"
+                text: "Transit"
+
+            BaseMDNavigationItem
+                icon: "shimmer"
+                text: "Solar"
+
+    Screen:
+        name: "screen_time_natal"
+        id: screen_time_natal
+        MDFloatLayout:
+            md_bg_color: 1, 1, 1, 1
+            orientation: 'vertical'
+            MDCard:
+                style: "elevated"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                padding: "4dp"
+                radius: [5, 5, 5, 5]
+                size_hint: None, None
+                size: "320dp", "650dp"
+                # Sets custom properties.
+                theme_shadow_color: "Custom"
+                shadow_color: "grey"
+                theme_bg_color: "Custom"
+                md_bg_color: "white"
+                md_bg_color_disabled: "white"
+                theme_shadow_offset: "Custom"
+                shadow_offset: (1, -2)
+                theme_shadow_softness: "Custom"
+                shadow_softness: 1
+                theme_elevation_level: "Custom"
+                elevation_level: 2
+
+                MDRelativeLayout:
+                    MDBoxLayout:
+                        adaptive_size: True
+                        size_hint: 1, .04
+                        pos: "0dp", "545dp"
+                        TextInput:
+                            name: 'input_date_year_natal'
+                            id: input_date_year_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '0000'
+
+                        MDLabel:
+                            text: "Год"
+                            font_style: "Title"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_date_mount_natal'
+                            id: input_date_mount_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "Мес"
+                            font_style: "Title"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_date_day_natal'
+                            id: input_date_day_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "День"
+                            font_style: "Title"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','0dp','0dp'
+
+                    MDBoxLayout:
+                        adaptive_size: True
+                        size_hint: 1, .04
+                        pos: "0dp", "485dp"
+                        TextInput:
+                            name: 'input_time_hour_natal'
+                            id: input_time_hour_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "Час"
+                            font_style: "Title"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_time_minute_natal'
+                            id: input_time_minute_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "Мин"
+                            font_style: "Title"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_time_sec_natal'
+                            id: input_time_sec_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "Сек"
+                            font_style: "Title"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','0dp','0dp'
+
+                    MDBoxLayout:
+                        adaptive_size: True
+                        size_hint: 1, .05
+                        pos: "0dp", "425dp"
+                        TextInput:
+                            name: 'input_city_natal'
+                            id: input_city_natal
+                            multiline: False
+                            font_size: '15sp'
+                            hint_text: ''
+
+                    MDBoxLayout:
+                        adaptive_size: True
+                        size_hint: 1, .05
+                        pos: "0dp", "365dp"
+                        TextInput:
+                            name: 'input_country_natal'
+                            id: input_country_natal
+                            multiline: False
+                            font_size: '15sp'
+                            hint_text: ''
+
+                    MDBoxLayout:
+                        adaptive_size: True
+                        size_hint: 1, .04
+                        pos: "0dp", "305dp"
+                        TextInput:
+                            name: 'input_latitude_grad_natal'
+                            id: input_latitude_grad_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "°"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_latitude_min_natal'
+                            id: input_latitude_min_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "′"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_latitude_sec_natal'
+                            id: input_latitude_sec_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "′′"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','0dp','0dp'
+
+                    MDBoxLayout:
+                        adaptive_size: True
+                        size_hint: 1, .04
+                        pos: "0dp", "245dp"
+                        TextInput:
+                            name: 'input_longitude_grad_natal'
+                            id: input_longitude_grad_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "°"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_longitude_min_natal'
+                            id: input_longitude_min_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "′"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','8dp','0dp'
+
+
+                        TextInput:
+                            name: 'input_longitude_sec_natal'
+                            id: input_longitude_sec_natal
+                            multiline: False
+                            font_size: '15sp'
+                            input_type: 'number'
+                            input_filter: 'int'
+                            hint_text: '00'
+
+                        MDLabel:
+                            text: "′′"
+                            font_style: "Headline"
+                            role: "small"
+                            adaptive_size: True
+                            padding: '4dp', '4dp','0dp','0dp'
+
+
+                    MDButton:
+                        style: "elevated"
+                        theme_shadow_color: "Custom"
+                        shadow_color: "red"
+                        pos: "200dp", "12dp"
+                        on_release:
+                            root.check_data(0, 0, False)
+
+                        MDButtonIcon:
+                            icon: "compass-rose"
+                            theme_icon_color: "Custom"
+                            icon_color: "green"
+
+                        MDButtonText:
+                            text: "Natal"
+                            theme_text_color: "Custom"
+                            text_color: "red"
+
+                    MDButton:
+                        style: "elevated"
+                        theme_shadow_color: "Custom"
+                        shadow_color: "red"
+                        pos: "4dp", "12dp"
+                        on_release:
+
+
+                        MDButtonIcon:
+                            icon: "database"
+                            theme_icon_color: "Custom"
+                            icon_color: "green"
+
+                        MDButtonText:
+                            text: "Data"
+                            theme_text_color: "Custom"
+                            text_color: "red"
+
+                    MDLabel:
+                        text: "Введите дату рождения:"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "0dp", "580dp"
+
+
+                    MDLabel:
+                        text: "Введите время рождения:"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "0dp", "520dp"
+
+
+                    MDLabel:
+                        text: "Введите город рождения:"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "0dp", "460dp"
+
+                    MDLabel:
+                        text: "Введите страну рождения:"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "0dp", "400dp"
+
+                    MDLabel:
+                        text: "Введите широту города вашего рождения:"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "0dp", "340dp"
+
+
+                    MDLabel:
+                        text: "Введите долготу вашего города рождения:"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "0dp", "280dp"
+
+
+                    MDLabel:
+                        text: "РАСЧЕТ НАТАЛЬНОЙ КАРТЫ"
+                        font_style: "Title"
+                        role: "small"
+                        adaptive_size: True
+                        pos: "55dp", "620dp"
+                        bold: True
+
+
+
